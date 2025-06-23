@@ -1,30 +1,17 @@
-const express = require("express");
-const cors = require("cors");
-const mongoose = require("mongoose");
+const express = require('express');
+const dotenv = require('dotenv');
+const cors = require('cors');
+const connectDB = require('./config/db');
+
 require("dotenv").config();
+connectDB();
 
 const app = express();
-const port = process.env.PORT || 5000;
-
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Database connection
-mongoose.connect(process.env.MONGO_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-mongoose.connection.once("open", () => {
-  console.log("Connected to MongoDB");
-});
+app.use('/api/user', require('./routes/userRoutes'));
 
-// Sample route
-app.get("/", (req, res) => {
-  res.send("DocSpot Backend is Running");
-});
-
-// Start server
-app.listen(port, () => {
-  console.log(`Server started on port ${port}`);
+app.listen(process.env.PORT, () => {
+  console.log(`Server started on port ${process.env.PORT}`);
 });
