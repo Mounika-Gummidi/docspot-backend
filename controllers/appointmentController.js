@@ -36,3 +36,23 @@ exports.bookAppointment = async (req, res) => {
     res.status(500).json({ message: 'Server error while booking' });
   }
 };
+
+
+exports.getDoctorAppointments = async (req, res) => {
+  try {
+    const doctorId = req.user.id;
+    const appointments = await Appointment.find({ doctorId }).populate('userId', 'name');
+    res.json(appointments.map(a => ({
+      _id: a._id,
+      userInfo: {
+        name: a.userId.name,
+      },
+      date: a.date,
+      status: a.status
+    })));
+  } catch (err) {
+    console.error('Error getting doctor appointments:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+

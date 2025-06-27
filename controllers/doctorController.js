@@ -29,8 +29,8 @@ exports.getDoctorById = async (req, res) => {
 // POST a doctor application
 exports.applyDoctor = async (req, res) => {
   try {
+    const { fullName, specialization, experience, fees, email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-    const { fullName, specialization, experience, fees } = req.body;
     const userId = req.user.id;
 
     const doctor = new Doctor({
