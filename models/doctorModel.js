@@ -1,17 +1,18 @@
 const mongoose = require('mongoose');
 
 const doctorSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   fullName: String,
-  email: String,
-  timings: Array,
-  phone: String,
-  address: String,
   specialization: String,
+  experience: Number,
+  fees: Number,
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
   status: { type: String, default: 'pending' },
-  experience: String,
-  fees: String,
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  }
 });
 
 module.exports = mongoose.model('Doctor', doctorSchema);
-
